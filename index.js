@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express, {request, response } from 'express'
 import process from 'node:process'
 
 // Devuelve los segundos que el proceso lleva activo
@@ -12,11 +12,8 @@ app.use('/',(request,response,next)=>{
     console.log(`[${timeString} ${request.method} ${request.url}]`)
     next()
 })
-const previousHomeMiddleware=(request,response,next)=>{
-    console.log('Ejecutando el middleware previo a la ruta /')
-    next()
-}
-app.get('/',previousHomeMiddleware,(request,response)=>{
+
+app.get('/',(request,response)=>{
     return response.send('<h1>Hello Word!</h1>')
 })
 app.get('/health',(request,response)=>{
@@ -25,6 +22,31 @@ app.get('/health',(request,response)=>{
         uptime: Math.floor(process.uptime()), // Segundos ndeados
         timestamp: Date.now(),
     })
+})
+app.get('/get-jobs',(request,response)=>{
+    return response.json({
+        jobs:[
+            {id:1,title:'Frotend Developer'},
+            {id:2,title:'Backend Developer'},
+            {id:3,title:'Frotend Developer'},
+
+        ]
+    })
+})
+app.get('/get-single-job/:id',(request,response)=>{
+    const {id}=request.params
+    const idNumber=Number(id)
+    return response.json({
+        job:{id:idNumber,title:`Job with id ${id}`}
+    })
+})
+app.get('/a{b}cd',(request,response)=>{
+    
+    return response.send('abcd o acd')
+})
+app.get('/bb*bb',(request,response)=>{
+    
+    return response.send('bb*bb')
 })
 
 app.listen(PORT,()=>{
