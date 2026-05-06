@@ -1,6 +1,6 @@
 import express, {request, response } from 'express'
 import process from 'node:process'
-
+import jobs from './jobs.json' with {type:'json'}
 // Devuelve los segundos que el proceso lleva activo
 const uptime = process.uptime()
 
@@ -23,15 +23,9 @@ app.get('/health',(request,response)=>{
         timestamp: Date.now(),
     })
 })
-app.get('/get-jobs',(request,response)=>{
-    return response.json({
-        jobs:[
-            {id:1,title:'Frotend Developer'},
-            {id:2,title:'Backend Developer'},
-            {id:3,title:'Frotend Developer'},
-
-        ]
-    })
+app.get('/get-jobs',async(request,response)=>{
+    // const {default:jobs}=await import('./jobs.json',{with:{type:'json'}})
+    return response.json(jobs)
 })
 app.get('/get-single-job/:id',(request,response)=>{
     const {id}=request.params
