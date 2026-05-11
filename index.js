@@ -1,5 +1,6 @@
 import express from 'express'
 import process from 'node:process'
+import cors from 'cors'
 import jobs from './jobs.json' with {type:'json'}
 import {DEFAULTS} from './config.js'
 // Devuelve los segundos que el proceso lleva activo
@@ -9,6 +10,24 @@ const PORT=process.env.PORT ?? DEFAULTS.PORT
 
 const  app=express()
 app.use(express.json())
+const ACCEPTED_ORIGINS=[
+    'http://localhost:3000',
+    'https://midu.dev',
+    'http://localhost:5173'
+]
+
+app.use(
+    cors(
+        {
+            origin:(origin,callback)=>{
+                if (ACCEPTED_ORIGINS.includes(origin)){
+                   return callback(null,true)
+                }
+                return callback(new Error('Origen no permitido'))
+            }
+        }
+    )
+)
 
 app.use('/',(req,res,next)=>{
     const timeString=new Date().toLocaleDateString()
@@ -29,8 +48,9 @@ app.get('/health',(req,res)=>{
 
 // Crud: Create, Read, Update,Delete
  
-app.get('/get-jobs',async(req,res)=>{
+app.get('/jobs',async(req,res)=>{
     // const {default:jobs}=await import('./jobs.json',{with:{type:'json'}})
+    res.header('Access-Control-Allow-Origin','http://localhost:5173')
     const {text,title,level,limit=DEFAULTS.LIMIT_PAGINATION,technology,offset=DEFAULTS.LIMIT_OFFSET}=req.query
     let filteredJobs=jobs
 
@@ -46,7 +66,7 @@ app.get('/get-jobs',async(req,res)=>{
      const limitNumber=Number(limit)
      const offsetNumber=Number(offset)
      const paginatedJobs=filteredJobs.slice(offsetNumber,offsetNumber+limitNumber)
-     return res.json(paginatedJobs)
+     return res.json({data:paginatedJobs,total:filteredJobs.length,limit:limitNumber,offset:offsetNumber})
 
 
 
