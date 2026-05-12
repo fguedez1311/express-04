@@ -99,6 +99,20 @@ app.post('/jobs',(req,res)=>{
     return res.status(201).json(newJob)
 
 })
+// Reemplazar un recurso completo
+app.put('/jobs/:id',(req,res)=>{
+
+})
+
+// Actualizar parcialmente un recurso
+app.path('/jobs/:id',(req,res)=>{
+
+})
+
+// Borrar un recurso
+app.delete('/jobs/:id',(req,res)=>{
+
+})
 
 app.listen(PORT,()=>{
     console.log(`Servidor levantado en http://localhost:${PORT}`)
