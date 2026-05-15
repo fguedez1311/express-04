@@ -1,9 +1,9 @@
 import {Router} from 'express'
-import { JobController } from '../controllers/jobs'
+import { JobController } from '../controllers/jobs.js'
 
 
 
-const jobsRouter=Router()
+export const jobsRouter=Router()
 
 // Crud: Create, Read, Update,Delete
  
@@ -14,7 +14,7 @@ jobsRouter.post('/',JobController.create)
 jobsRouter.put('/:id',JobController.update)
 
 // Actualizar parcialmente un recurso
-jobsRouter.path('/:id',JobController.partialUpdate)
+jobsRouter.patch('/:id',JobController.partialUpdate)
 
 // Borrar un recurso
 jobsRouter.delete('/:id',JobController.delete)

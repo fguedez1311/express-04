@@ -1,7 +1,7 @@
-import jobs from '../jobs.json' with {type:'json'}
+import jobs from '../jobs.json' with { type: 'json' }
 
 export class JobModel{
-    static async getAll(text,title,level,limit=10,technology,offset=0){
+    static async getAll({text,title,level,limit=10,technology,offset=0}){
         
         let filteredJobs=jobs
 
