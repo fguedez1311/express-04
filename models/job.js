@@ -6,7 +6,7 @@ export class JobModel{
         let filteredJobs=jobs
 
         if (text){
-            const searchTerm=text.toLocaleLowerCase()
+            const searchTerm=text.toLowerCase()
             filteredJobs=filteredJobs.filter(job=>job.titulo.toLowerCase().includes(searchTerm) || job.descripcion.toLowerCase().includes(searchTerm)
             )
         
@@ -27,7 +27,7 @@ export class JobModel{
             ubicacion,
             descripcion,
             data
-        }
+          }
         jobs.push(newJob)
         return  newJob
     }

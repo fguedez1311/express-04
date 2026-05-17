@@ -1,20 +1,21 @@
 import {Router} from 'express'
-import { JobController } from '../controllers/jobs.js'
+import { jobController } from '../controllers/jobs.js'
 
 
 
 export const jobsRouter=Router()
-
 // Crud: Create, Read, Update,Delete
  
-jobsRouter.get('/',JobController.getAll)
-jobsRouter.get('/:id',JobController.getId)
-jobsRouter.post('/',JobController.create)
+jobsRouter.get('/',jobController.getAll)
+jobsRouter.get('/:id',jobController.getId)
+
+jobsRouter.post('/',jobController.create)
 // Reemplazar un recurso completo
-jobsRouter.put('/:id',JobController.update)
+jobsRouter.put('/:id',jobController.update)
 
 // Actualizar parcialmente un recurso
-jobsRouter.patch('/:id',JobController.partialUpdate)
+jobsRouter.patch('/:id',jobController.partialUpdate)
 
 // Borrar un recurso
-jobsRouter.delete('/:id',JobController.delete)
+jobsRouter.delete('/:id',jobController.delete)
+
